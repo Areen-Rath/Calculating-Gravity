@@ -8,18 +8,25 @@ with open('data.csv', 'r') as f:
 
 star_gravity = []
 
-def gravity(star):
-    gravity = star[2]/star[3] * 6.674e-11
-    star_gravity.append(gravity)
+def gravity():
+    for star in data:
+        try:
+            gravity = float(star[2]) * 1.989e+30/(float(star[3]) * float(star[3]) * 6.957e+8 * 6.957e+8) * 6.674e-11
+            star_gravity.append(gravity)
+        except:
+            data.remove(star)
 
 for index, star in enumerate(data):
     if star != []:
         star[2] = star[2] * 1.989e+30
         star[3] = star[3] * 6.957e+8
-        gravity(star)
-        star.append(star_gravity[index])
     else:
         data.remove(star)
+
+gravity()
+
+for index, star in enumerate(data):
+    star.append(star_gravity[index])
 
 with open('data.csv', 'w') as f:
     writer = csv.writer(f)
